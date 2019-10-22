@@ -4,27 +4,27 @@ import {
 } from 'rxjs';
 
 /**
- * Базовый класс хранилища данных
+ * Storage base class
  */
 export class Store<T> {
 
-  /** Наблюдаемое состояние */
+  /** Observed state */
   readonly state$: Observable<T>;
 
-  /** Состояние */
+  /** State */
   private innerState$: BehaviorSubject<T>;
 
-  /** Объект состояния */
+  /** The state object */
   get state(): T {
     return this.innerState$.getValue();
   }
 
-  /** Делегат метода который будет вызван перед установкой нового состояния */
+  /** Method delegate to be called before setting the new state */
   beforeSetStateFn: (state: T, nextState: T) => void;
 
   /**
-   * Конструктор
-   * @param stateInit Данные для инициализации состояния
+   * constructor
+   * @param stateInit Data to initialize the state
    */
   constructor(stateInit: T) {
     this.innerState$ = new BehaviorSubject(stateInit);
@@ -32,8 +32,8 @@ export class Store<T> {
   }
 
   /**
-   * Обновляет состояние
-   * @param nextState Состояние которое необходимо установить
+   * Updates the status
+   * @param nextState State to be set
    */
   protected setState(nextState: T): void {
     if (this.beforeSetStateFn) {
